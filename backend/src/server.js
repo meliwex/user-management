@@ -31,11 +31,11 @@ app.use('/v1/imgs', express.static(strgPath))
 
 app.use((err, req, res, next) => {
   console.error(err);
-  
+
 
   const statusCode = err.statusCode || 500;
-  let message = ""; 
-  
+  let message = "";
+
   if (err.name === "InformErr") {
     message = err.message;
   }

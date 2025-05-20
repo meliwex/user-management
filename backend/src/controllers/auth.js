@@ -2,6 +2,7 @@ const bcrypt = require("bcrypt")
 const { body, query } = require('express-validator');
 const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer")
+const { v4 } = require('uuid');
 const InformErr = require("../utils/informErr")
 const UserAccount = require("../models/UserAccount")
 const UserRole = require("../models/UserRole")
@@ -247,11 +248,11 @@ exports.refresh = async (req, res, next) => {
     });
 
 
-    const accessToken = jwt.sign({ id: decoded.id, role: user.userRoleId.roleName }, process.env.ACCESS_TK_JWT_SECRET, {
+    const accessToken = jwt.sign({ id: decoded.id, role: user.userRoleId.roleName, t: v4() }, process.env.ACCESS_TK_JWT_SECRET, {
       expiresIn: process.env.ACCESS_TK_JWT_EXPIRY,
     });
 
-    const refreshToken = jwt.sign({ id: decoded.id, role: user.userRoleId.roleName }, process.env.REFRESH_TK_JWT_SECRET, {
+    const refreshToken = jwt.sign({ id: decoded.id, role: user.userRoleId.roleName, t: v4() }, process.env.REFRESH_TK_JWT_SECRET, {
       expiresIn: process.env.REFRESH_TK_JWT_EXPIRY,
     });
 

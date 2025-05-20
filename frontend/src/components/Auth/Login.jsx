@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import axios from "axios"
-import { setTokens } from "../../utils/token"
+import { getRefreshToken, setTokensAndRole } from "../../utils/token"
 import { useNavigate, Link } from "react-router-dom";
 
 
@@ -8,9 +8,9 @@ import { useNavigate, Link } from "react-router-dom";
 const Login = ({ setLoggedIn }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [alertText, setAlertText] = useState(null);
-  
-  
+  const [alert, setAlert] = useState(null);
+
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -31,8 +31,9 @@ const Login = ({ setLoggedIn }) => {
         }
       );
 
+
       if (response.data.success) {
-        setTokens(response.data.tokens)
+        setTokensAndRole(response.data.tokens.accessToken, response.data.tokens.refreshToken, response.data.role)
         setLoggedIn(true)
       }
 
@@ -40,22 +41,30 @@ const Login = ({ setLoggedIn }) => {
     } catch (err) {
 
       if (err.response.data.errors === "") {
-        setAlertText("Something went wrong")
+        setAlert({
+          type: "red",
+          message: "Something went wrong"
+        })
+
       } else {
-        setAlertText(err.response.data.errors);
+        setAlert({
+          type: "red",
+          message: err.response.data.errors
+        })
       }
     }
   }
 
 
+
   useEffect(() => {
-    if (alertText) {
+    if (alert) {
 
       setTimeout(() => {
-        setAlertText(null)
+        setAlert(null)
       }, 4000)
     }
-  }, [alertText]);
+  }, [alert]);
 
 
 
@@ -66,9 +75,9 @@ const Login = ({ setLoggedIn }) => {
       <form onSubmit={handleSubmit}>
         <div className="inputs-block">
           {
-            alertText &&
-            <div className="alert-text">
-              {alertText}
+            alert &&
+            <div className={`alert-text alert-text-${alert.type}`}>
+              {alert.message}
             </div>
           }
           <div>
