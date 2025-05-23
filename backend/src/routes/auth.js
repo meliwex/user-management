@@ -9,7 +9,7 @@ const router = express.Router();
 
 
 router.post("/register", checkAuth([rolesEnum.ADMIN]), validateInput(validate.register), register);
-router.post("/activate-account", uploadImage, validateInput(validate.activateAccount), activateAccount);
+router.post("/activate-account", validateInput(validate.activateAccount), activateAccount);
 
 
 router.post("/login", validateInput(validate.login), login);

@@ -4,6 +4,7 @@ const dotenv = require('dotenv');
 const helmet = require("helmet");
 const authRoutes = require("./routes/auth")
 const userRoutes = require("./routes/user")
+const photoRoutes = require("./routes/photo")
 const connectDb = require("./utils/connectDb")
 const { strgPath } = require("./utils/multerConf")
 
@@ -24,7 +25,9 @@ app.use(express.json());
 
 app.use("/v1/auth", authRoutes)
 app.use("/v1/users", userRoutes)
-app.use('/v1/imgs', express.static(strgPath))
+app.use("/v1/photos", photoRoutes)
+// app.use('/v1/imgs', express.static(strgPath))
+
 
 
 

@@ -37,29 +37,59 @@ const ActivateAccount = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-
-    const form = new FormData();
-
-    form.append("token", token);
-    form.append("firstName", firstName);
-    form.append("lastName", lastName);
-    form.append("phone", phone);
-    form.append("password", password);
-
-    if (profileImg) {
-      form.append("image", profileImg);
-    }
-
-
+    
     try {
-      const response = await axios.post(
+      const inputs = {
+        token,
+        firstName,
+        lastName,
+        phone,
+        password
+      };
+
+
+      const response1 = await axios.post(
         `${import.meta.env.VITE_API_BASE_URL}/v1/auth/activate-account`,
+        inputs,
+        {
+          // headers: {
+          // },
+        }
+      );
+
+
+
+
+      const form = new FormData();
+
+      form.append("token", token);
+
+
+      if (profileImg) {
+        form.append("image", profileImg);
+
+      } else {
+        const res = await fetch(DefaultAvatar);
+        const blob = await res.blob();
+
+        const file = new File([blob], "default-avatar.jpg", {
+          type: blob.type,
+        });
+
+        form.append("image", file);
+      }
+
+
+
+      const response2 = await axios.post(
+        `${import.meta.env.VITE_API_BASE_URL}/v1/photos`,
         form,
         {
           // headers: {
           // },
         }
       );
+
 
       setAlert({
         type: "green",

@@ -303,7 +303,7 @@ const MainPage = ({ setLoggedIn }) => {
                 if (el.isActive) {
                   return <div className="user-block" key={index}>
                     <div>
-                      <img crossOrigin="anonymous" src={`${import.meta.env.VITE_API_BASE_URL}/v1/imgs/${el.imgUrl}`} alt="avatar" />
+                      <img crossOrigin="anonymous" src={el.imgUrl} alt="avatar" />
                     </div>
                     <div className="user-content">
                       {
@@ -396,7 +396,7 @@ const MainPage = ({ setLoggedIn }) => {
 
                 return <div className="user-block" key={index}>
                   <div>
-                    <img crossOrigin="anonymous" src={`${import.meta.env.VITE_API_BASE_URL}/v1/imgs/${el.imgUrl}`} alt="avatar" />
+                    <img crossOrigin="anonymous" src={el.imgUrl} alt="avatar" />
                   </div>
                   <div className="user-content">
                     <div className="user-content-item first-name">

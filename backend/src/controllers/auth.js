@@ -128,15 +128,12 @@ exports.activateAccount = async (req, res, next) => {
 
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
 
-    const imgUrl = req.file?.filename || "default-avatar.jpg";
-
     const inputs = {
       isActive: true,
       password: hashedPassword,
       firstName: req.body.firstName,
       lastName: req.body.lastName,
       phone: req.body.phone,
-      imgUrl: imgUrl
     };
 
     await UserAccount.updateOne({ email: decoded.email }, inputs);

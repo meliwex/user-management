@@ -4,30 +4,34 @@ const { v4 } = require('uuid');
 const InformErr = require("./informErr")
 
 
-const strgPath = "./src/assets/imgs";
+// const strgPath = "./src/assets/imgs";
 
-const storageConfig = {
-  destination: function (req, file, cb) {
-    cb(null, strgPath)
-  },
-  filename: function (req, file, cb) {
-    const extName = path.extname(file.originalname)
-    cb(null, v4() + extName)
-  }
-}
+// const storageConfig = {
+//   destination: function (req, file, cb) {
+//     cb(null, strgPath)
+//   },
+//   filename: function (req, file, cb) {
+//     const extName = path.extname(file.originalname)
+//     cb(null, v4() + extName)
+//   }
+// }
 
-const storage = multer.diskStorage(storageConfig)
 
+// const storage = multer.diskStorage(storageConfig)
+
+
+
+const storage = multer.memoryStorage();
 
 
 const multerConfig = {
   storage: storage,
   fileFilter: (req, file, callback) => {
-    const ext = path.extname(file.originalname);
+    const fileType = file.mimetype.split("/")[1];
 
-    const allowedExts = ['.png', '.jpg', '.jpeg']
+    const allowedFileTypes = ['png', 'jpg', 'jpeg']
 
-    if (!allowedExts.includes(ext)) {
+    if (!allowedFileTypes.includes(fileType)) {
       return callback('Only .png .jpg .jpeg are allowed', false)
     }
 
@@ -53,6 +57,6 @@ const uploadImage = (req, res, next) => {
 
 
 module.exports = {
-  strgPath,
+  // strgPath,
   uploadImage
 }

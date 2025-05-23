@@ -31,11 +31,6 @@ const schema = new mongoose.Schema({
     default: null,
     required: false,
   },
-  imgUrl: {
-    type: String,
-    default: null,
-    required: false,
-  },
   userRoleId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'UserRole',
